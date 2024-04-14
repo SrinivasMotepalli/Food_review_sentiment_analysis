@@ -7,31 +7,36 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-from sklearn.model_selection import train_test_split
+import pickle
 from translate import Translator
 
-# Load preprocessed dataset
-df_preprocessed = pd.read_csv('preprocessed_dataset.csv')
+df_preprocessed = pd.read_csv(preprocessed_dataset.csv)
 
-# Split data into features and target
 X = df_preprocessed['Text']
 y = df_preprocessed['Sentiment']
 
-# Vectorize the text data
-vectorizer = TfidfVectorizer(max_features=5000)
-X_tfidf = vectorizer.fit_transform(X)
+# Splitting the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X_tfidf, y, test_size=0.2, random_state=42)
+# Vectorizing the text data
+vectorizer = TfidfVectorizer(max_features=5000)  # Adjust parameters as needed
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
 
-# Train the Logistic Regression model
+# Training the Logistic Regression model
 lmodel = LogisticRegression()
-lmodel.fit(X_train, y_train)
+lmodel.fit(X_train_tfidf, y_train)
 
-# Define a function to preprocess and vectorize text
-def preprocess_and_vectorize_text(text):
+# Predicting the labels on the test set
+y_pred = lmodel.predict(X_test_tfidf)
+
+# Evaluating the model
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("Classification Report:\n", classification_report(y_test, y_pred))
+
+# Function to preprocess and vectorize text
+def preprocess_and_vectorize_text(text, vectorizer):
     # Lowercasing
     text = text.lower()
     # Tokenization
@@ -66,6 +71,10 @@ languages = {
 
 st.title('Multilingual Comment Analyzer')
 
+# Load model and vectorizer
+lmodel = load_model('logistic_regression_model.pkl')
+vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
+
 # User input
 st.subheader('Enter Sentence')
 new_sentence = st.text_input('Enter a sentence:')
@@ -83,7 +92,7 @@ if new_sentence:
     st.subheader('Sentiment Analysis')
 
     # Vectorize the preprocessed sentence
-    vectorized_sentence = preprocess_and_vectorize_text(new_sentence)
+    vectorized_sentence = preprocess_and_vectorize_text(new_sentence, vectorizer)
     
     # Predict sentiment
     predicted_sentiment = lmodel.predict(vectorized_sentence)
@@ -91,5 +100,3 @@ if new_sentence:
     # Display sentiment
     sentiment = "Positive" if predicted_sentiment[0] == 1 else "Negative"
     st.write('Predicted Sentiment:', sentiment)
-
-
