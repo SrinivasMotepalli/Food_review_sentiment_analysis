@@ -10,6 +10,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 from translate import Translator
 
+df_preprocessed = pd.read_csv(preprocessed_dataset.csv)
+
 X = df_preprocessed['Text']
 y = df_preprocessed['Sentiment']
 
