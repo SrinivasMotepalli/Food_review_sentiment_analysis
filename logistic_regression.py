@@ -1,33 +1,20 @@
+import streamlit as st
 import pandas as pd
 import numpy as np
 import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-import nltk
-from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import pickle
-
-
 from translate import Translator
-print("INDIAN LANGUAGE TRANSLATOR")
-print("lang_code language \n en English(India) \n gu-IN Gujarati(India) \n hi-IN Hindi(India) \n kn-IN Kannada(India) \n kok-IN Konkani(India) \n mr-IN Marathi(India) \n pa-IN Punjabi(India) \n sa-IN Sanskrit(India) \n ta-IN Tamil(India) \n te-IN Telugu(India)")
-say_lang=input("ENTER THE LANGUAGE IN WHICH YOU ARE FAMILIAR WITH (ENTER THE LANG_CODE) :")
-convert_lang=input("ENTER THE LANGUAGE YOU WANT TO CONVERT INTO (ENTER THE LANG_CODE) :")
-translator=Translator(from_lang = say_lang,to_lang=convert_lang)
-sentence=input("ENTER THE SENTENCE YOU WANT TO CONVERT INTO :")
-translation=translator.translate(sentence)
-print(translation)
 
+# Load the trained model
 with open('logistic_regression_model.pkl', 'rb') as f:
     lmodel = pickle.load(f)
 
+# Function to preprocess and vectorize text
 def preprocess_and_vectorize_text(text, vectorizer):
     # Lowercasing
     text = text.lower()
@@ -47,8 +34,50 @@ def preprocess_and_vectorize_text(text, vectorizer):
     vectorized_sentence = vectorizer.transform([preprocessed_text])
     return vectorized_sentence
 
-# Example usage:
-new_sentence = input("Enter a sentence: ")
-vectorized_sentence = preprocess_and_vectorize_text(new_sentence, vectorizer)
-predicted_sentiment = lmodel.predict(vectorized_sentence)
-print("Predicted Sentiment:", "Positive" if predicted_sentiment[0] == 1 else "Negative")
+# Define languages
+languages = {
+    'en': 'English(India)',
+    'gu-IN': 'Gujarati(India)',
+    'hi-IN': 'Hindi(India)',
+    'kn-IN': 'Kannada(India)',
+    'kok-IN': 'Konkani(India)',
+    'mr-IN': 'Marathi(India)',
+    'pa-IN': 'Punjabi(India)',
+    'sa-IN': 'Sanskrit(India)',
+    'ta-IN': 'Tamil(India)',
+    'te-IN': 'Telugu(India)'
+}
+
+# Main Streamlit app
+def main():
+    st.title('Multilingual Comment Analyzer')
+
+    # User input
+    st.subheader('Enter Sentence')
+    new_sentence = st.text_input('Enter a sentence:')
+
+    # Language translation
+    st.subheader('Translate to Language')
+    convert_lang = st.selectbox('Select language:', list(languages.keys()))
+
+    if new_sentence:
+        translator = Translator(from_lang='en', to_lang=convert_lang)
+        translation = translator.translate(new_sentence)
+        st.write('Translated Sentence:', translation)
+
+        # Sentiment analysis
+        st.subheader('Sentiment Analysis')
+
+        # Vectorize the preprocessed sentence
+        vectorized_sentence = preprocess_and_vectorize_text(new_sentence, vectorizer)
+        
+        # Predict sentiment
+        predicted_sentiment = lmodel.predict(vectorized_sentence)
+
+        # Display sentiment
+        sentiment = "Positive" if predicted_sentiment[0] == 1 else "Negative"
+        st.write('Predicted Sentiment:', sentiment)
+
+if __name__ == '__main__':
+    main()
+
