@@ -2,3 +2,4 @@ streamlit
 nltk==3.6.0
 scikit-learn
 translate
+pytest
