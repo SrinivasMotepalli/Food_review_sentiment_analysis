@@ -10,7 +10,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 from translate import Translator
 
-
 # Load the trained model
 def load_model(model_path):
     with open(model_path, 'rb') as f:
@@ -23,25 +22,11 @@ def load_vectorizer(vectorizer_path):
         vectorizer = pickle.load(f)
     return vectorizer
 
-# Function to preprocess and vectorize text
-def preprocess_and_vectorize_text(text, vectorizer):
-    # Lowercasing
-    text = text.lower()
-    # Tokenization
-    tokens = word_tokenize(text)
-    # Removing punctuation
-    tokens = [word for word in tokens if word not in string.punctuation]
-    # Removing stopwords
-    stop_words = set(stopwords.words('english'))
-    tokens = [word for word in tokens if word not in stop_words]
-    # Lemmatization
-    lemmatizer = WordNetLemmatizer()
-    tokens = [lemmatizer.lemmatize(word) for word in tokens]
-    # Join the tokens back into a single string
-    preprocessed_text = ' '.join(tokens)
-    # Vectorize the preprocessed sentence
-    vectorized_sentence = vectorizer.transform([preprocessed_text])
-    return vectorized_sentence
+# Load the preprocess and vectorize function
+def load_preprocess_and_vectorize_function(pickle_file):
+    with open(pickle_file, 'rb') as f:
+        preprocess_and_vectorize_text = pickle.load(f)
+    return preprocess_and_vectorize_text
 
 # Define languages
 languages = {
@@ -62,6 +47,7 @@ st.title('Multilingual Comment Analyzer')
 # Load model and vectorizer
 lmodel = load_model('logistic_regression_model.pkl')
 vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
+preprocess_and_vectorize_text = load_preprocess_and_vectorize_function('preprocess_and_vectorize.pkl')
 
 # User input
 st.subheader('Enter Sentence')
@@ -87,4 +73,5 @@ if new_sentence:
 
     # Display sentiment
     sentiment = "Positive" if predicted_sentiment[0] == 1 else "Negative"
-    st.write('Predicted Sentiment:', sentiment)  
+    st.write('Predicted Sentiment:', sentiment)
+
