@@ -1,19 +1,23 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
 import string
-import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
 import pickle
 from translate import Translator
 
 # Load the trained model
-with open('logistic_regression_model.pkl', 'rb') as f:
-    lmodel = pickle.load(f)
+def load_model(model_path):
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    return model
+
+# Load the vectorizer
+def load_vectorizer(vectorizer_path):
+    with open(vectorizer_path, 'rb') as f:
+        vectorizer = pickle.load(f)
+    return vectorizer
 
 # Function to preprocess and vectorize text
 def preprocess_and_vectorize_text(text, vectorizer):
@@ -52,6 +56,10 @@ languages = {
 # Main Streamlit app
 def main():
     st.title('Multilingual Comment Analyzer')
+
+    # Load model and vectorizer
+    lmodel = load_model('logistic_regression_model.pkl')
+    vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
 
     # User input
     st.subheader('Enter Sentence')
