@@ -23,17 +23,18 @@ def load_vectorizer(vectorizer_path):
     return vectorizer
 
 languages = {
-    'en': 'English',
-    'gu-IN': 'Gujarati',
-    'hi-IN': 'Hindi',
-    'kn-IN': 'Kannada',
-    'kok-IN': 'Konkani',
-    'mr-IN': 'Marathi',
-    'pa-IN': 'Punjabi',
-    'sa-IN': 'Sanskrit',
-    'ta-IN': 'Tamil',
-    'te-IN': 'Telugu'
+    'en': 'English (India)',
+    'gu-IN': 'Gujarati (India)',
+    'hi-IN': 'Hindi (India)',
+    'kn-IN': 'Kannada (India)',
+    'kok-IN': 'Konkani (India)',
+    'mr-IN': 'Marathi (India)',
+    'pa-IN': 'Punjabi (India)',
+    'sa-IN': 'Sanskrit (India)',
+    'ta-IN': 'Tamil (India)',
+    'te-IN': 'Telugu (India)'
 }
+
 
 
 st.title('Multilingual Comment Analyzer')
