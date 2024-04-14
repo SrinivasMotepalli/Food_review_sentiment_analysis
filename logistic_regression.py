@@ -22,6 +22,11 @@ def load_vectorizer(vectorizer_path):
         vectorizer = pickle.load(f)
     return vectorizer
 
+def load_function(function_path):
+    with open(function_path, 'rb') as f:
+        preprocess_and_vectorize_text = pickle.load(f)
+    return preprocess_and_vectorize_text
+
 # Define languages
 languages = {
     'en': 'English(India)',
@@ -41,10 +46,8 @@ st.title('Multilingual Comment Analyzer')
 # Load model and vectorizer
 lmodel = load_model('logistic_regression_model.pkl')
 vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
+preprocess_and_vectorize_text = load_function('')
 
-# Load the preprocess and vectorize function
-with open('preprocess_and_vectorize.pkl', 'rb') as f:
-    preprocess_and_vectorize_text = pickle.load(f)
 
 # User input
 st.subheader('Enter Sentence')
