@@ -22,6 +22,12 @@ def load_vectorizer(vectorizer_path):
         vectorizer = pickle.load(f)
     return vectorizer
 
+# Load the preprocess and vectorize function
+def load_preprocess_and_vectorize_function(pickle_file):
+    with open(pickle_file, 'rb') as f:
+        preprocess_and_vectorize_text = pickle.load(f)
+    return preprocess_and_vectorize_text
+
 # Define languages
 languages = {
     'en': 'English(India)',
@@ -41,10 +47,7 @@ st.title('Multilingual Comment Analyzer')
 # Load model and vectorizer
 lmodel = load_model('logistic_regression_model.pkl')
 vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
-
-# Load the preprocess and vectorize function
-with open('preprocess_and_vectorize.pkl', 'rb') as f:
-    preprocess_and_vectorize_text = pickle.load(f)
+preprocess_and_vectorize_text = load_preprocess_and_vectorize_text('preprocess_and_vectorize.pkl')
 
 # User input
 st.subheader('Enter Sentence')
@@ -71,3 +74,4 @@ if new_sentence:
     # Display sentiment
     sentiment = "Positive" if predicted_sentiment[0] == 1 else "Negative"
     st.write('Predicted Sentiment:', sentiment)
+
