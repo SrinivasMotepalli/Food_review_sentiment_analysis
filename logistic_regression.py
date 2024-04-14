@@ -15,6 +15,15 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import pickle
 
 
+from translate import Translator
+print("INDIAN LANGUAGE TRANSLATOR")
+print("lang_code language \n en English(India) \n gu-IN Gujarati(India) \n hi-IN Hindi(India) \n kn-IN Kannada(India) \n kok-IN Konkani(India) \n mr-IN Marathi(India) \n pa-IN Punjabi(India) \n sa-IN Sanskrit(India) \n ta-IN Tamil(India) \n te-IN Telugu(India)")
+say_lang=input("ENTER THE LANGUAGE IN WHICH YOU ARE FAMILIAR WITH (ENTER THE LANG_CODE) :")
+convert_lang=input("ENTER THE LANGUAGE YOU WANT TO CONVERT INTO (ENTER THE LANG_CODE) :")
+translator=Translator(from_lang = say_lang,to_lang=convert_lang)
+sentence=input("ENTER THE SENTENCE YOU WANT TO CONVERT INTO :")
+translation=translator.translate(sentence)
+print(translation)
 
 with open('logistic_regression_model.pkl', 'rb') as f:
     lmodel = pickle.load(f)
