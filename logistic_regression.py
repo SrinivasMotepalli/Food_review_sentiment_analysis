@@ -1,7 +1,3 @@
-!pip install nltk
-
-
-
 import streamlit as st
 import string
 import nltk
