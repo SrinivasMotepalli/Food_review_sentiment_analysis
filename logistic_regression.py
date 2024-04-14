@@ -46,7 +46,7 @@ st.subheader('Enter Sentence')
 new_sentence = st.text_input('Enter a sentence:')
 
 st.subheader('Translate to Language')
-convert_lang = st.selectbox('Select language:', list(languages.values()))
+convert_lang = st.selectbox('Select language:')
 
 
 if new_sentence:
