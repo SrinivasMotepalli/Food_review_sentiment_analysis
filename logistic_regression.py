@@ -23,16 +23,16 @@ def load_vectorizer(vectorizer_path):
     return vectorizer
 
 languages = {
-    'en',
-    'gu-IN',
-    'hi-IN',
-    'kn-IN',
-    'kok-IN',
-    'mr-IN',
-    'pa-IN',
-    'sa-IN',
-    'ta-IN',
-    'te-IN'
+    'English': 'en',
+    'Gujarati': 'gu-IN',
+    'Hindi': 'hi-IN',
+    'Kannada': 'kn-IN',
+    'Konkani': 'kok',
+    'Marathi': 'mr-IN',
+    'Punjabi': 'pa-IN',
+    'Sanskrit': 'sa-IN',
+    'Tamil': 'ta-IN',
+    'Telugu': 'te-IN'
 }
 
 st.title('Multilingual Comment Analyzer')
@@ -46,11 +46,10 @@ st.subheader('Enter Sentence')
 new_sentence = st.text_input('Enter a sentence:')
 
 st.subheader('Translate to Language')
-convert_lang = st.selectbox('Select language:')
-
+convert_lang = st.selectbox('Select language:', list(languages.keys()))
 
 if new_sentence:
-    translator = Translator(from_lang='en', to_lang=convert_lang)
+    translator = Translator(from_lang='en', to_lang=languages[convert_lang])
     translation = translator.translate(new_sentence)
     st.write('Translated Sentence:', translation)
 
