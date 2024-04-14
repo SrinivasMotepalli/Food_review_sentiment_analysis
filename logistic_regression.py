@@ -1,17 +1,3 @@
-import streamlit as st
-import numpy as np
-import pandas as pd
-import string
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
-from sklearn.feature_extraction.text import TfidfVectorizer
-import pickle
-from translate import Translator
-from nltk.corpus import wordnet as wn
-
-
 class WordNetLemmatizer:
     """
     WordNet Lemmatizer
@@ -50,6 +36,19 @@ class WordNetLemmatizer:
 
     def __repr__(self):
         return "<WordNetLemmatizer>"
+
+import streamlit as st
+import numpy as np
+import pandas as pd
+import string
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+import pickle
+from translate import Translator
+from nltk.corpus import wordnet as wn
 
 df_preprocessed = pd.read_csv(preprocessed_dataset.csv)
 
