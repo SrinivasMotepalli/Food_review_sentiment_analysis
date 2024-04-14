@@ -10,17 +10,28 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 from translate import Translator
 
-# Load the trained model
-def load_model(model_path):
-    with open(model_path, 'rb') as f:
-        model = pickle.load(f)
-    return model
+X = df_preprocessed['Text']
+y = df_preprocessed['Sentiment']
 
-# Load the vectorizer
-def load_vectorizer(vectorizer_path):
-    with open(vectorizer_path, 'rb') as f:
-        vectorizer = pickle.load(f)
-    return vectorizer
+# Splitting the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Vectorizing the text data
+vectorizer = TfidfVectorizer(max_features=5000)  # Adjust parameters as needed
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+
+# Training the Logistic Regression model
+lmodel = LogisticRegression()
+lmodel.fit(X_train_tfidf, y_train)
+
+# Predicting the labels on the test set
+y_pred = lmodel.predict(X_test_tfidf)
+
+# Evaluating the model
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("Classification Report:\n", classification_report(y_test, y_pred))
 
 # Function to preprocess and vectorize text
 def preprocess_and_vectorize_text(text, vectorizer):
