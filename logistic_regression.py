@@ -12,10 +12,6 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 from sklearn.model_selection import train_test_split
 from translate import Translator
 
-# Download NLTK resources
-nltk.download('punkt')
-nltk.download('stopwords')
-
 # Load preprocessed dataset
 df_preprocessed = pd.read_csv('preprocessed_dataset.csv')
 
