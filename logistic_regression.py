@@ -1,6 +1,5 @@
 import streamlit as st
 import string
-from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 from translate import Translator
 
