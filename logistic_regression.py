@@ -32,7 +32,7 @@ languages = {
     'pa-IN',
     'sa-IN',
     'ta-IN',
-    'te-IN''
+    'te-IN'
 }
 
 st.title('Multilingual Comment Analyzer')
