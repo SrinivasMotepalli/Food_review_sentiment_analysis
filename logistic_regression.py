@@ -47,7 +47,7 @@ st.title('Multilingual Comment Analyzer')
 # Load model and vectorizer
 lmodel = load_model('logistic_regression_model.pkl')
 vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
-preprocess_and_vectorize_text = load_preprocess_and_vectorize_text('preprocess_and_vectorize.pkl')
+preprocess_and_vectorize_text = load_vectorized_sentence('preprocess_and_vectorize.pkl')
 
 # User input
 st.subheader('Enter Sentence')
