@@ -1,5 +1,9 @@
 import streamlit as st
 import string
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 from translate import Translator
 
@@ -49,40 +53,35 @@ languages = {
     'te-IN': 'Telugu(India)'
 }
 
-# Main Streamlit app
-def main():
-    st.title('Multilingual Comment Analyzer')
+st.title('Multilingual Comment Analyzer')
 
-    # Load model and vectorizer
-    lmodel = load_model('logistic_regression_model.pkl')
-    vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
+# Load model and vectorizer
+lmodel = load_model('logistic_regression_model.pkl')
+vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
 
-    # User input
-    st.subheader('Enter Sentence')
-    new_sentence = st.text_input('Enter a sentence:')
+# User input
+st.subheader('Enter Sentence')
+new_sentence = st.text_input('Enter a sentence:')
 
-    # Language translation
-    st.subheader('Translate to Language')
-    convert_lang = st.selectbox('Select language:', list(languages.keys()))
+# Language translation
+st.subheader('Translate to Language')
+convert_lang = st.selectbox('Select language:', list(languages.keys()))
 
-    if new_sentence:
-        translator = Translator(from_lang='en', to_lang=convert_lang)
-        translation = translator.translate(new_sentence)
-        st.write('Translated Sentence:', translation)
+if new_sentence:
+    translator = Translator(from_lang='en', to_lang=convert_lang)
+    translation = translator.translate(new_sentence)
+    st.write('Translated Sentence:', translation)
 
-        # Sentiment analysis
-        st.subheader('Sentiment Analysis')
+    # Sentiment analysis
+    st.subheader('Sentiment Analysis')
 
-        # Vectorize the preprocessed sentence
-        vectorized_sentence = preprocess_and_vectorize_text(new_sentence, vectorizer)
-        
-        # Predict sentiment
-        predicted_sentiment = lmodel.predict(vectorized_sentence)
+    # Vectorize the preprocessed sentence
+    vectorized_sentence = preprocess_and_vectorize_text(new_sentence, vectorizer)
+    
+    # Predict sentiment
+    predicted_sentiment = lmodel.predict(vectorized_sentence)
 
-        # Display sentiment
-        sentiment = "Positive" if predicted_sentiment[0] == 1 else "Negative"
-        st.write('Predicted Sentiment:', sentiment)
-
-if __name__ == '__main__':
-    main()
+    # Display sentiment
+    sentiment = "Positive" if predicted_sentiment[0] == 1 else "Negative"
+    st.write('Predicted Sentiment:', sentiment)
 
