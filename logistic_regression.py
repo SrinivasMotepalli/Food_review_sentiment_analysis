@@ -1,24 +1,21 @@
 import streamlit as st
+import numpy as np
+import pandas as pd
 import string
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import pickle
 from translate import Translator
 
-# Load the trained model
-def load_model(model_path):
-    with open(model_path, 'rb') as f:
-        model = pickle.load(f)
-    return model
-
-# Load the vectorizer
-def load_vectorizer(vectorizer_path):
-    with open(vectorizer_path, 'rb') as f:
-        vectorizer = pickle.load(f)
-    return vectorizer
 
 # Function to preprocess and vectorize text
 def preprocess_and_vectorize_text(text, vectorizer):
