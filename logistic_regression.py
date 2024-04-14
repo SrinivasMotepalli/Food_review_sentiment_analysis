@@ -22,32 +22,11 @@ def load_vectorizer(vectorizer_path):
         vectorizer = pickle.load(f)
     return vectorizer
 
-def load_function(function_path):
-    with open(function_path, 'rb') as f:
-        preprocess_and_vectorize_text = pickle.load(f)
-    return preprocess_and_vectorize_text
-
-# Define languages
-languages = {
-    'en': 'English(India)',
-    'gu-IN': 'Gujarati(India)',
-    'hi-IN': 'Hindi(India)',
-    'kn-IN': 'Kannada(India)',
-    'kok-IN': 'Konkani(India)',
-    'mr-IN': 'Marathi(India)',
-    'pa-IN': 'Punjabi(India)',
-    'sa-IN': 'Sanskrit(India)',
-    'ta-IN': 'Tamil(India)',
-    'te-IN': 'Telugu(India)'
-}
-
 st.title('Multilingual Comment Analyzer')
 
 # Load model and vectorizer
 lmodel = load_model('logistic_regression_model.pkl')
 vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
-preprocess_and_vectorize_text = load_function('preprocess_and_vectorize.pkl')
-
 
 # User input
 st.subheader('Enter Sentence')
@@ -66,10 +45,10 @@ if new_sentence:
     st.subheader('Sentiment Analysis')
 
     # Vectorize the preprocessed sentence
-    vectorized_sentence = preprocess_and_vectorize_text(new_sentence, vectorizer)
+    X_new = vectorizer.transform([new_sentence])
     
     # Predict sentiment
-    predicted_sentiment = lmodel.predict(vectorized_sentence)
+    predicted_sentiment = lmodel.predict(X_new)
 
     # Display sentiment
     sentiment = "Positive" if predicted_sentiment[0] == 1 else "Negative"
