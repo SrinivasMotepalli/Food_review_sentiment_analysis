@@ -16,6 +16,17 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import pickle
 from translate import Translator
 
+# Load the trained model
+def load_model(model_path):
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    return model
+
+# Load the vectorizer
+def load_vectorizer(vectorizer_path):
+    with open(vectorizer_path, 'rb') as f:
+        vectorizer = pickle.load(f)
+    return vectorizer
 
 # Function to preprocess and vectorize text
 def preprocess_and_vectorize_text(text, vectorizer):
