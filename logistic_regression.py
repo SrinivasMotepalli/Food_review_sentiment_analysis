@@ -45,9 +45,9 @@ vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
 st.subheader('Enter Sentence')
 new_sentence = st.text_input('Enter a sentence:')
 
-# Language translation
 st.subheader('Translate to Language')
-convert_lang = st.selectbox('Select language:', list(languages.keys()))
+convert_lang = st.selectbox('Select language:', list(languages.values()))
+
 
 if new_sentence:
     translator = Translator(from_lang='en', to_lang=convert_lang)
