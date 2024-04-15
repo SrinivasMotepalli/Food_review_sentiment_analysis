@@ -39,6 +39,7 @@ def load_vectorizer(vectorizer_path):
 model_paths = {
     'Logistic Regression': 'logistic_regression_model.pkl',
     'Multinomial Naive Bayes': 'multinomialnb_model.pkl',
+    'Gradient Boosting': 'XGBoost_model',
     # Add more models as needed
 }
 
@@ -46,6 +47,7 @@ model_paths = {
 vectorizer_paths = {
     'Logistic Regression': 'tfidf_vectorizer.pkl',
     'Multinomial Naive Bayes': 'tfidf_vectorizer.pkl',
+    'Gradient Boosting': 'tfidf_vectorizer.pkl',
     # Add more vectorizers as needed
 }
 
