@@ -10,18 +10,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 from translate import Translator
 
-# Load the trained model
-def load_model(model_path):
-    with open(model_path, 'rb') as f:
-        model = pickle.load(f)
-    return model
-
-# Load the vectorizer
-def load_vectorizer(vectorizer_path):
-    with open(vectorizer_path, 'rb') as f:
-        vectorizer = pickle.load(f)
-    return vectorizer
-
 languages = {
     'en': 'English(India)',
     'gu-IN': 'Gujarati(India)',
@@ -35,11 +23,33 @@ languages = {
     'te-IN': 'Telugu(India)'
 }
 
-st.title('Multilingual Comment Analyzer')
+# Load the trained model
+def load_model(model_path):
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    return model
 
-# Load model and vectorizer
-lmodel = load_model('logistic_regression_model.pkl')
-vectorizer = load_vectorizer('tfidf_vectorizer.pkl')
+# Load the vectorizer
+def load_vectorizer(vectorizer_path):
+    with open(vectorizer_path, 'rb') as f:
+        vectorizer = pickle.load(f)
+    return vectorizer
+
+# Define model paths
+model_paths = {
+    'Logistic Regression': 'logistic_regression_model.pkl',
+    'Multinomial Naive Bayes': 'multinomialnb_model.pkl',
+    # Add more models as needed
+}
+
+# Define vectorizer paths
+vectorizer_paths = {
+    'Logistic Regression': 'tfidf_vectorizer.pkl',
+    'Multinomial Naive Bayes': 'tfidf_vectorizer.pkl',
+    # Add more vectorizers as needed
+}
+
+st.title('Multilingual Comment Analyzer')
 
 # User input
 st.subheader('Enter Sentence')
@@ -48,10 +58,17 @@ new_sentence = st.text_input('Enter a sentence:')
 st.subheader('Translate to Language')
 convert_lang = st.selectbox('Select language:', list(languages.keys()))
 
+# Model selection
+selected_model = st.selectbox('Select Model:', list(model_paths.keys()))
+
 if new_sentence:
     translator = Translator(from_lang='en', to_lang=convert_lang)
     translation = translator.translate(new_sentence)
     st.write('Translated Sentence:', translation)
+
+    # Load selected model and vectorizer
+    model = load_model(model_paths[selected_model])
+    vectorizer = load_vectorizer(vectorizer_paths[selected_model])
 
     # Sentiment analysis
     st.subheader('Sentiment Analysis')
@@ -60,7 +77,7 @@ if new_sentence:
     X_new = vectorizer.transform([new_sentence])
     
     # Predict sentiment
-    predicted_sentiment = lmodel.predict(X_new)
+    predicted_sentiment = model.predict(X_new)
 
     # Display sentiment
     sentiment = "Positive" if predicted_sentiment[0] == 1 else "Negative"
