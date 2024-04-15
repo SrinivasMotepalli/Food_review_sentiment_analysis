@@ -39,6 +39,7 @@ languages = {
 model1_path = 'logistic_regression_model.pkl'
 model2_path = 'multinomialnb_model.pkl'
 model3_path = 'gradient_boosting_model.pkl'
+model4_path = 'DecisionTree_model.pkl'
 
 # Define vectorizer path
 vectorizer_path = 'tfidf_vectorizer.pkl'
@@ -53,7 +54,7 @@ st.subheader('Translate to Language')
 convert_lang = st.selectbox('Select language:', list(languages.keys()))
 
 # Model selection
-selected_model = st.selectbox('Select Model:', ['Logistic Regression', 'Multinomial Naive Bayes', 'Gradient Boosting'])
+selected_model = st.selectbox('Select Model:', ['Logistic Regression', 'Multinomial Naive Bayes', 'Gradient Boosting','Decision Tree'])
 model_path = None
 
 if selected_model == 'Logistic Regression':
@@ -62,7 +63,8 @@ elif selected_model == 'Multinomial Naive Bayes':
     model_path = model2_path
 elif selected_model == 'Gradient Boosting':
     model_path = model3_path
-
+elif selected_model == 'Decision Tree':
+    model_path = model4_path
 
 if new_sentence:
     translator = Translator(from_lang='en', to_lang=convert_lang)
