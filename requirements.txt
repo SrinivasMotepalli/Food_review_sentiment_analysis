@@ -3,3 +3,4 @@ nltk==3.6.0
 scikit-learn==1.4.2
 translate
 pytest
+xgboost
