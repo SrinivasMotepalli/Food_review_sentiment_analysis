@@ -25,9 +25,14 @@ languages = {
 
 # Load the trained model
 def load_model(model_path):
-    with open(model_path, 'rb') as f:
-        model = pickle.load(f)
-    return model
+    try:
+        with open(model_path, 'rb') as f:
+            model = pickle.load(f)
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
+
 
 # Load the vectorizer
 def load_vectorizer(vectorizer_path):
