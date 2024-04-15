@@ -10,6 +10,18 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 from translate import Translator
 
+# Load the trained model
+def load_model(model_path):
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    return model
+
+# Load the vectorizer
+def load_vectorizer(vectorizer_path):
+    with open(vectorizer_path, 'rb') as f:
+        vectorizer = pickle.load(f)
+    return vectorizer
+
 languages = {
     'en': 'English(India)',
     'gu-IN': 'Gujarati(India)',
@@ -23,40 +35,18 @@ languages = {
     'te-IN': 'Telugu(India)'
 }
 
-# Load the trained model
-def load_model(model_path):
-    try:
-        with open(model_path, 'rb') as f:
-            model = pickle.load(f)
-        return model
-    except Exception as e:
-        st.error(f"Error loading model: {e}")
-        return None
-
-
-# Load the vectorizer
-def load_vectorizer(vectorizer_path):
-    with open(vectorizer_path, 'rb') as f:
-        vectorizer = pickle.load(f)
-    return vectorizer
-
 # Define model paths
 model_paths = {
     'Logistic Regression': 'logistic_regression_model.pkl',
     'Multinomial Naive Bayes': 'multinomialnb_model.pkl',
     'Gradient Boosting': 'gradient_boosting_model.pkl'
-    # Add more models as needed
+    # Add more models here
 }
 
-# Define vectorizer paths
-vectorizer_paths = {
-    'Logistic Regression': 'tfidf_vectorizer.pkl',
-    'Multinomial Naive Bayes': 'tfidf_vectorizer.pkl',
-    'Gradient Boosting': 'gradient_boosting_model.pkl'
-    # Add more vectorizers as needed
-}
+# Define vectorizer path
+vectorizer_path = 'tfidf_vectorizer.pkl'
 
-st.title('Multilingual Food Reviews  Analyzer')
+st.title('Multilingual Comment Analyzer')
 
 # User input
 st.subheader('Enter Sentence')
@@ -75,7 +65,7 @@ if new_sentence:
 
     # Load selected model and vectorizer
     model = load_model(model_paths[selected_model])
-    vectorizer = load_vectorizer(vectorizer_paths[selected_model])
+    vectorizer = load_vectorizer(vectorizer_path)
 
     # Sentiment analysis
     st.subheader('Sentiment Analysis')
