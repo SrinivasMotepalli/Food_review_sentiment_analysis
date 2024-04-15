@@ -44,7 +44,7 @@ model4_path = 'DecisionTree_model.pkl'
 # Define vectorizer path
 vectorizer_path = 'tfidf_vectorizer.pkl'
 
-st.title('Multilingual Comment Analyzer')
+st.title('Multilingual Food Reviews Sentiment Analyzer')
 
 # User input
 st.subheader('Enter Sentence')
