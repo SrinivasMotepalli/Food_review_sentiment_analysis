@@ -70,7 +70,7 @@ if new_sentence:
     st.write('Translated Sentence:', translation)
 
     # Load selected model and vectorizer
-    model = load_model(model_paths[selected_model])
+    model = load_model(model_path)
     vectorizer = load_vectorizer(vectorizer_path)
 
     # Sentiment analysis
