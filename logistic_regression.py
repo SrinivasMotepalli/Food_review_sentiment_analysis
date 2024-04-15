@@ -9,6 +9,7 @@ from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 from translate import Translator
+import xgboost as xgb
 
 languages = {
     'en': 'English(India)',
@@ -51,7 +52,7 @@ vectorizer_paths = {
     # Add more vectorizers as needed
 }
 
-st.title('Multilingual Comment Analyzer')
+st.title('Multilingual Food Reviews  Analyzer')
 
 # User input
 st.subheader('Enter Sentence')
