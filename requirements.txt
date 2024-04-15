@@ -1,5 +1,5 @@
 streamlit
 nltk==3.6.0
-scikit-learn
+scikit-learn==0.24.2
 translate
 pytest
